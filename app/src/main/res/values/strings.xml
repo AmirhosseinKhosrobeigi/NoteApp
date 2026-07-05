@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Notes</string>
+    <string name="recycle_bin">سطل زباله</string>
+    <string name="title">عنوان یادداشت</string>
+    <string name="detail">توضیحات نوشته</string>
+    <string name="save">ذخیره کردن</string>
+    <string name="cancel">لغو کردن</string>
+    <string name="search_hint">جستجوی یادداشت‌ها...</string>
+</resources>
