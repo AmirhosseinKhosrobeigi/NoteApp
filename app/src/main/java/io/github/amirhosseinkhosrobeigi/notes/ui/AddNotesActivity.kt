@@ -9,6 +9,7 @@ import io.github.amirhosseinkhosrobeigi.notes.data.local.DBHandler
 import io.github.amirhosseinkhosrobeigi.notes.data.model.NoteEntity
 import io.github.amirhosseinkhosrobeigi.notes.databinding.ActivityAddNotesBinding
 import io.github.amirhosseinkhosrobeigi.notes.utils.PersianDate
+import io.github.amirhosseinkhosrobeigi.notes.utils.ThemeHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,6 +21,9 @@ class AddNotesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ThemeHelper.initializeTheme(this)
+
         binding = ActivityAddNotesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

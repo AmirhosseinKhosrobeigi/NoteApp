@@ -1,44 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Material Design Dark Theme Colors -->
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+
+    <!-- Primary Colors -->
+    <color name="colorPrimary">#673AB7</color>
+    <color name="colorPrimaryVariant">#311B92</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
     
-    <!-- Basic Colors -->
+    <!-- Secondary Colors -->
+    <color name="colorSecondary">#03DAC6</color>
+    <color name="colorSecondaryVariant">#018786</color>
+    <color name="colorOnSecondary">#000000</color>
+    
+    <!-- Surface Colors -->
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorSurfaceContainer">#F0F0F0</color>
+    <color name="colorSurfaceVariant">#F5F5F5</color>
+    <color name="colorOnSurface">#1C1B1F</color>
+    <color name="colorOnSurfaceVariant">#49454F</color>
+    
+    <!-- Background Colors -->
+    <color name="colorBackground">#F8F8F8</color>
+    <color name="colorOnBackground">#1C1B1F</color>
+    
+    <!-- Error Colors -->
+    <color name="colorError">#B00020</color>
+    <color name="colorErrorContainer">#FFDAD6</color>
+    <color name="colorOnError">#FFFFFF</color>
+    <color name="colorOnErrorContainer">#410002</color>
+    
+    <!-- Text Colors -->
+    <color name="colorTextPrimary">#1C1B1F</color>
+    <color name="colorTextSecondary">#49454F</color>
+    <color name="colorTextTertiary">#79747E</color>
+    
+    <!-- Accent Colors (for backward compatibility) -->
+    <color name="colorAccent">#673AB7</color>
+    <color name="colorAccentVariant">#311B92</color>
+    
+    <!-- Outline Colors -->
+    <color name="colorOutline">#79747E</color>
+    <color name="colorOutlineVariant">#CAC4D0</color>
+    
+    <!-- ============================================ -->
+    <!-- Legacy Colors (kept for backward compatibility) -->
+    <!-- ============================================ -->
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+    
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- Dark Theme Colors -->
-    <color name="colorPrimary">#FFBB86FC</color>
-    <color name="colorPrimaryVariant">#FF3700B3</color>
-    <color name="colorOnPrimary">#FF000000</color>
-    
-    <color name="colorSecondary">#FF03DAC5</color>
-    <color name="colorSecondaryVariant">#FF018786</color>
-    <color name="colorOnSecondary">#FF000000</color>
-    
-    <!-- Background Colors -->
-    <color name="colorBackground">#FF000000</color>
-    <color name="colorSurface">#FF121212</color>
-    <color name="colorSurfaceVariant">#FF1E1E1E</color>
-    
-    <!-- Text Colors -->
-    <color name="colorTextPrimary">#FFFFFFFF</color>
-    <color name="colorTextSecondary">#FFE0E0E0</color>
-    <color name="colorTextTertiary">#FFA0A0A0</color>
-    
-    <!-- Accent Colors -->
-    <color name="colorAccent">#FF00BCD4</color>
-    <color name="colorAccentVariant">#FF0097A7</color>
-    
-    <!-- Status and Error Colors -->
-    <color name="colorError">#FFFF5252</color>
-    <color name="colorErrorContainer">#FF8C0000</color>
-    
-    <!-- Legacy colors (kept for backward compatibility) -->
     <color name="colorGray300">#3d3c3c</color>
     <color name="colorRed">#C40F00</color>
     <color name="colorDarkRed">#490500</color>

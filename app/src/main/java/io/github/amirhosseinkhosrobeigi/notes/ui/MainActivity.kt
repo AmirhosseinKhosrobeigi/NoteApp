@@ -11,13 +11,12 @@ import io.github.amirhosseinkhosrobeigi.notes.adapter.recycler.NoteAdapter
 import io.github.amirhosseinkhosrobeigi.notes.data.local.DBHandler
 import io.github.amirhosseinkhosrobeigi.notes.data.model.NoteEntity
 import io.github.amirhosseinkhosrobeigi.notes.databinding.ActivityMainBinding
-import io.github.amirhosseinkhosrobeigi.notes.ui.SettingsActivity
+import io.github.amirhosseinkhosrobeigi.notes.utils.ThemeHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.Collator
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ThemeHelper.initializeTheme(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -88,7 +89,6 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerNotes.layoutManager = LinearLayoutManager(this)
         binding.recyclerNotes.adapter = adapter
 
-        // Setup swipe to delete
         adapter.attachSwipeToDelete(
             recyclerView = binding.recyclerNotes,
             onSwipeDelete = { note, _ ->
@@ -114,7 +114,6 @@ class MainActivity : AppCompatActivity() {
         snackbar.setActionTextColor(getColor(R.color.colorAccent))
         snackbar.show()
 
-        // Actually delete the note
         lifecycleScope.launch {
             withContext(Dispatchers.IO) {
                 db.noteDao().updateNoteState(note.id, true)

@@ -9,7 +9,7 @@ import io.github.amirhosseinkhosrobeigi.notes.R
 import io.github.amirhosseinkhosrobeigi.notes.adapter.recycler.RecycleBinAdapter
 import io.github.amirhosseinkhosrobeigi.notes.data.local.DBHandler
 import io.github.amirhosseinkhosrobeigi.notes.databinding.ActivityRecycleBinBinding
-import io.github.amirhosseinkhosrobeigi.notes.ui.SettingsActivity
+import io.github.amirhosseinkhosrobeigi.notes.utils.ThemeHelper
 import kotlinx.coroutines.launch
 
 class RecycleBinActivity : AppCompatActivity() {
@@ -20,6 +20,9 @@ class RecycleBinActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        ThemeHelper.initializeTheme(this)
+
         binding = ActivityRecycleBinBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

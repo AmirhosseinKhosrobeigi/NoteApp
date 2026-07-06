@@ -8,7 +8,6 @@
     android:background="@color/colorBackground"
     tools:context=".ui.MainActivity">
 
-    <!-- Toolbar with Search (without trash icon) -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -20,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- RecyclerView - extends behind bottom nav for glass effect -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_notes"
         android:layout_width="0dp"
@@ -33,7 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Floating Bottom Navigation View with Glassmorphism -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="0dp"

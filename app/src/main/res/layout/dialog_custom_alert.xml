@@ -26,7 +26,7 @@
         android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-medium"
         android:text="حذف یادداشت"
-        android:textColor="@color/white"
+        android:textColor="@color/colorTextPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
