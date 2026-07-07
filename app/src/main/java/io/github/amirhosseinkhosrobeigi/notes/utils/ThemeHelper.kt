@@ -1,7 +1,6 @@
 package io.github.amirhosseinkhosrobeigi.notes.utils
 
 import android.content.Context
-import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 
 object ThemeHelper {
