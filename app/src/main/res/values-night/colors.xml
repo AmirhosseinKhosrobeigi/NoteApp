@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary Colors -->
+    <color name="colorPrimary">#FFBB86FC</color>
+    <color name="colorPrimaryVariant">#FF3700B3</color>
+    <color name="colorOnPrimary">#FF000000</color>
+
+    <!-- Secondary Colors -->
+    <color name="colorSecondary">#FF03DAC5</color>
+    <color name="colorSecondaryVariant">#FF018786</color>
+    <color name="colorOnSecondary">#FF000000</color>
+
+    <!-- Surface Colors -->
+    <color name="colorSurface">#121212</color>
+    <color name="colorSurfaceContainer">#1E1E1E</color>
+    <color name="colorSurfaceVariant">#1E1E1E</color>
+    <color name="colorOnSurface">#E6E1E5</color>
+    <color name="colorOnSurfaceVariant">#CAC4D0</color>
+
+    <!-- Background Colors -->
+    <color name="colorBackground">#000000</color>
+    <color name="colorOnBackground">#E6E1E5</color>
+
+    <!-- Error Colors -->
+    <color name="colorError">#FFFF5252</color>
+    <color name="colorErrorContainer">#8C0000</color>
+    <color name="colorOnError">#690005</color>
+    <color name="colorOnErrorContainer">#FFDAD6</color>
+
+    <!-- Text Colors -->
+    <color name="colorTextPrimary">#E6E1E5</color>
+    <color name="colorTextSecondary">#CAC4D0</color>
+    <color name="colorTextTertiary">#938F99</color>
+
+    <!-- Accent Colors (for backward compatibility) -->
+    <color name="colorAccent">#FF00BCD4</color>
+    <color name="colorAccentVariant">#FF0097A7</color>
+
+    <!-- Outline Colors -->
+    <color name="colorOutline">#938F99</color>
+    <color name="colorOutlineVariant">#49454F</color>
+
+    <!-- Legacy Colors (kept for backward compatibility) -->
+    <color name="purple_200">#BB86FC</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
+
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="colorGray300">#3d3c3c</color>
+    <color name="colorRed">#C40F00</color>
+    <color name="colorDarkRed">#490500</color>
+    <color name="colorCyan">#00BCD4</color>
+    <color name="colorBlue">#2196F3</color>
+    <color name="colorDarkBlue200">#0f1c56</color>
+    <color name="colorDarkBlue100">#172986</color>
+    <color name="colorDarkBlue900">#010316</color>
+    <color name="colorDarkBlue700">#03062C</color>
+    <color name="colorGreen">#2aff46</color>
+    <color name="colorYellow">#FFBE03</color>
+    <color name="colorTransParent">#00FFFFFF</color>
+</resources>
