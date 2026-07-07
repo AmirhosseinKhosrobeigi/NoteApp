@@ -25,7 +25,7 @@
         <item name="android:navigationBarColor">@color/colorSurfaceVariant</item>
         
         <!-- Bottom Navigation Colors -->
-        <item name="bottomNavBackgroundColor">@color/colorSurfaceVariant</item>
+        <item name="bottomNavBackgroundColor">#E6F5F5F5</item>
         <item name="bottomNavStrokeColor">#33000000</item>
         
         <!-- Text Colors -->

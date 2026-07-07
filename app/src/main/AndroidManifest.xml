@@ -13,12 +13,6 @@
         android:theme="@style/Theme.NotesApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.RecycleBinActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.SettingsActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -27,9 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.AddNotesActivity"
-            android:exported="false" />
     </application>
 
 </manifest>

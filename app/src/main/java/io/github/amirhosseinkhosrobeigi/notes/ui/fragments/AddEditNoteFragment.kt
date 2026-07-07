@@ -1,36 +1,63 @@
-package io.github.amirhosseinkhosrobeigi.notes.ui
+package io.github.amirhosseinkhosrobeigi.notes.ui.fragments
 
 import android.os.Bundle
 import android.text.Editable
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import io.github.amirhosseinkhosrobeigi.notes.R
 import io.github.amirhosseinkhosrobeigi.notes.data.local.DBHandler
 import io.github.amirhosseinkhosrobeigi.notes.data.model.NoteEntity
-import io.github.amirhosseinkhosrobeigi.notes.databinding.ActivityAddNotesBinding
+import io.github.amirhosseinkhosrobeigi.notes.databinding.FragmentAddEditNoteBinding
+import io.github.amirhosseinkhosrobeigi.notes.ui.MainActivity
 import io.github.amirhosseinkhosrobeigi.notes.utils.PersianDate
-import io.github.amirhosseinkhosrobeigi.notes.utils.ThemeHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AddNotesActivity : AppCompatActivity() {
+class AddEditNoteFragment : Fragment() {
 
-    private lateinit var binding: ActivityAddNotesBinding
+    private lateinit var binding: FragmentAddEditNoteBinding
     private lateinit var db: DBHandler
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    companion object {
+        private const val ARG_NOTE_ID = "noteId"
+        private const val ARG_IS_NEW_NOTE = "isNewNote"
 
-        ThemeHelper.initializeTheme(this)
+        fun newInstance(noteId: Int, isNewNote: Boolean): AddEditNoteFragment {
+            val args = Bundle().apply {
+                putInt(ARG_NOTE_ID, noteId)
+                putBoolean(ARG_IS_NEW_NOTE, isNewNote)
+            }
+            return AddEditNoteFragment().apply {
+                arguments = args
+            }
+        }
+    }
 
-        binding = ActivityAddNotesBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentAddEditNoteBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        db = DBHandler.getDatabase(this)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val isNewNote = intent.getBooleanExtra("newNotes", true)
-        val noteId = intent.getIntExtra("notesId", 0)
+        db = DBHandler.getDatabase(requireContext())
+
+        val mainActivity = activity as? MainActivity
+        mainActivity?.apply {
+            findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)?.visibility = View.GONE
+            findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.img_add_note)?.visibility = View.GONE
+        }
+
+        val isNewNote = arguments?.getBoolean(ARG_IS_NEW_NOTE, true) ?: true
+        val noteId = arguments?.getInt(ARG_NOTE_ID, 0) ?: 0
 
         if (isNewNote) {
             binding.txtDate.text = getDate()
@@ -85,12 +112,23 @@ class AddNotesActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     val message = if (isNewNote) "یادداشت ذخیره شد" else "یادداشت بروزرسانی شد"
                     showText(message)
-                    finish()
+                    parentFragmentManager.popBackStack()
                 }
             }
         }
 
-        binding.btnCancel.setOnClickListener { finish() }
+        binding.btnCancel.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        val mainActivity = activity as? MainActivity
+        mainActivity?.apply {
+            findViewById<com.google.android.material.bottomnavigation.BottomNavigationView>(R.id.bottom_navigation)?.visibility = View.VISIBLE
+            findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.img_add_note)?.visibility = View.VISIBLE
+        }
     }
 
     private fun getDate(): String {
@@ -101,6 +139,6 @@ class AddNotesActivity : AppCompatActivity() {
     }
 
     private fun showText(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 }

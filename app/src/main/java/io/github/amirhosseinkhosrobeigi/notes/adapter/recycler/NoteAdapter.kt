@@ -19,7 +19,6 @@ class NoteAdapter(
     private val onItemClick: (NoteEntity) -> Unit
 ) : RecyclerView.Adapter<NoteAdapter.NotesViewHolder>() {
 
-    // Swipe callback for delete action
     inner class SwipeToDeleteCallback(
         private val adapter: NoteAdapter,
         private val onSwipeDelete: (NoteEntity, Int) -> Unit
@@ -97,7 +96,6 @@ class NoteAdapter(
         }
     }
 
-    // Context for the adapter (needed for resources)
     private lateinit var context: android.content.Context
 
     inner class NotesViewHolder(
@@ -136,7 +134,6 @@ class NoteAdapter(
         notifyDataSetChanged()
     }
 
-    // Create and attach swipe to delete functionality
     fun attachSwipeToDelete(
         recyclerView: RecyclerView,
         onSwipeDelete: (NoteEntity, Int) -> Unit

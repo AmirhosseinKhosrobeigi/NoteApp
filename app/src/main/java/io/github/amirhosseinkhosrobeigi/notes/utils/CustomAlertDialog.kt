@@ -82,20 +82,16 @@ class CustomAlertDialogBuilder(private val context: Context) {
         val view = LayoutInflater.from(context).inflate(R.layout.dialog_custom_alert, null)
         dialog.setContentView(view)
 
-        // Set icon
         val iconView = view.findViewById<ImageView>(R.id.dialogIcon)
         iconView.setImageResource(iconResId)
         iconView.setColorFilter(iconTint)
 
-        // Set title
         val titleView = view.findViewById<TextView>(R.id.dialogTitle)
         titleView.text = title
 
-        // Set message
         val messageView = view.findViewById<TextView>(R.id.dialogMessage)
         messageView.text = message
 
-        // Set positive button
         val positiveButton = view.findViewById<Button>(R.id.btnPositive)
         positiveButton.text = positiveButtonText
         positiveButton.setTextColor(positiveButtonColor)
@@ -104,7 +100,6 @@ class CustomAlertDialogBuilder(private val context: Context) {
             dialog.dismiss()
         }
 
-        // Set negative button
         val negativeButton = view.findViewById<Button>(R.id.btnNegative)
         negativeButton.text = negativeButtonText
         negativeButton.setTextColor(negativeButtonColor)
@@ -123,7 +118,6 @@ class CustomAlertDialogBuilder(private val context: Context) {
     }
 }
 
-// Extension function for easy usage
 fun Context.showCustomAlert(
     title: String,
     message: String,

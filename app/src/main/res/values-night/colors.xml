@@ -40,7 +40,6 @@
     <color name="colorOutline">#938F99</color>
     <color name="colorOutlineVariant">#49454F</color>
 
-    <!-- Legacy Colors (kept for backward compatibility) -->
     <color name="purple_200">#BB86FC</color>
     <color name="purple_500">#6200EE</color>
     <color name="purple_700">#3700B3</color>
