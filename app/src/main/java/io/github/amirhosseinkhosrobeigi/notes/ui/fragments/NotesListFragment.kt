@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import io.github.amirhosseinkhosrobeigi.notes.R
 import io.github.amirhosseinkhosrobeigi.notes.adapter.recycler.NoteAdapter
@@ -18,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.Collator
+import java.text.SimpleDateFormat
 import java.util.*
 
 class NotesListFragment : Fragment() {
@@ -28,6 +30,10 @@ class NotesListFragment : Fragment() {
 
     private var noteList = ArrayList<NoteEntity>()
     private var allNotes = ArrayList<NoteEntity>()
+
+    // Sort preferences
+    private enum class SortType { NAME, DATE_NEWEST, DATE_OLDEST }
+    private var currentSortType: SortType = SortType.NAME
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -154,7 +160,7 @@ class NotesListFragment : Fragment() {
             when (item.itemId) {
 
                 R.id.action_sort -> {
-                    sortNotes()
+                    showSortDialog()
                     true
                 }
 
@@ -222,25 +228,71 @@ class NotesListFragment : Fragment() {
 
     // ---------------- Sort Filter ----------------
     private fun sortNotes() {
-        val faCollator = Collator.getInstance(Locale("fa"))
-        val enCollator = Collator.getInstance(Locale.ENGLISH)
+        noteList.clear()
+        
+        when (currentSortType) {
+            SortType.NAME -> {
+                val faCollator = Collator.getInstance(Locale("fa"))
+                val enCollator = Collator.getInstance(Locale.ENGLISH)
 
-        val sortedNotes = allNotes.sortedWith { a, b ->
+                noteList.addAll(allNotes.sortedWith { a, b ->
+                    val aPersian = a.title.firstOrNull()?.code in 0x0600..0x06FF
+                    val bPersian = b.title.firstOrNull()?.code in 0x0600..0x06FF
 
-            val aPersian = a.title.firstOrNull()?.code in 0x0600..0x06FF
-            val bPersian = b.title.firstOrNull()?.code in 0x0600..0x06FF
-
-            when {
-                aPersian && !bPersian -> -1
-                !aPersian && bPersian -> 1
-                aPersian -> faCollator.compare(a.title, b.title)
-                else -> enCollator.compare(a.title, b.title)
+                    when {
+                        aPersian && !bPersian -> -1
+                        !aPersian && bPersian -> 1
+                        aPersian -> faCollator.compare(a.title, b.title)
+                        else -> enCollator.compare(a.title, b.title)
+                    }
+                })
+            }
+            SortType.DATE_NEWEST -> {
+                val dateFormat = SimpleDateFormat("yyyy/MM/dd | HH:mm", Locale.ENGLISH)
+                noteList.addAll(allNotes.sortedByDescending { note ->
+                    try {
+                        dateFormat.parse(note.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
+                })
+            }
+            SortType.DATE_OLDEST -> {
+                val dateFormat = SimpleDateFormat("yyyy/MM/dd | HH:mm", Locale.ENGLISH)
+                noteList.addAll(allNotes.sortedBy { note ->
+                    try {
+                        dateFormat.parse(note.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
+                })
             }
         }
 
-        noteList.clear()
-        noteList.addAll(sortedNotes)
-
         adapter.notifyDataSetChanged()
+    }
+
+    private fun showSortDialog() {
+        val items = arrayOf("Sort by Name", "Sort by Date (Newest First)", "Sort by Date (Oldest First)")
+        val checkedItem = when (currentSortType) {
+            SortType.NAME -> 0
+            SortType.DATE_NEWEST -> 1
+            SortType.DATE_OLDEST -> 2
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Sort Notes")
+            .setSingleChoiceItems(items, checkedItem) { dialog, which ->
+                currentSortType = when (which) {
+                    0 -> SortType.NAME
+                    1 -> SortType.DATE_NEWEST
+                    2 -> SortType.DATE_OLDEST
+                    else -> SortType.NAME
+                }
+                sortNotes()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 }
