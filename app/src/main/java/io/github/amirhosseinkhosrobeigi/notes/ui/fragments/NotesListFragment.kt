@@ -68,6 +68,9 @@ class NotesListFragment : Fragment() {
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit()
+            },
+            onFavoriteClick = { note ->
+                toggleFavorite(note)
             }
         )
 
@@ -128,6 +131,72 @@ class NotesListFragment : Fragment() {
                 snackbar.show()
             }
         }
+    }
+
+    private fun toggleFavorite(note: NoteEntity) {
+        lifecycleScope.launch {
+            val newFavoriteState = !note.isFavorite
+            withContext(Dispatchers.IO) {
+                db.noteDao().updateFavoriteState(note.id, newFavoriteState)
+            }
+            allNotes.find { it.id == note.id }?.let { existingNote ->
+                val index = allNotes.indexOf(existingNote)
+                if (index != -1) {
+                    allNotes[index] = existingNote.copy(isFavorite = newFavoriteState)
+                }
+            }
+            sortAndFilterNotes()
+        }
+    }
+
+    private fun sortAndFilterNotes() {
+        noteList.clear()
+        
+        when (currentSortType) {
+            SortType.NAME -> {
+                val faCollator = Collator.getInstance(Locale("fa"))
+                val enCollator = Collator.getInstance(Locale.ENGLISH)
+
+                noteList.addAll(allNotes.sortedWith { a, b ->
+                    if (a.isFavorite != b.isFavorite) {
+                        return@sortedWith if (a.isFavorite) -1 else 1
+                    }
+                    val aPersian = a.title.firstOrNull()?.code in 0x0600..0x06FF
+                    val bPersian = b.title.firstOrNull()?.code in 0x0600..0x06FF
+
+                    when {
+                        aPersian && !bPersian -> -1
+                        !aPersian && bPersian -> 1
+                        aPersian -> faCollator.compare(a.title, b.title)
+                        else -> enCollator.compare(a.title, b.title)
+                    }
+                })
+            }
+            SortType.DATE_NEWEST -> {
+                val dateFormat = SimpleDateFormat("yyyy/MM/dd | HH:mm", Locale.ENGLISH)
+                noteList.addAll(allNotes.sortedWith { a, b ->
+                    if (a.isFavorite != b.isFavorite) {
+                        return@sortedWith if (a.isFavorite) -1 else 1
+                    }
+                    val aDate = try { dateFormat.parse(a.date) } catch (e: Exception) { Date(0) }
+                    val bDate = try { dateFormat.parse(b.date) } catch (e: Exception) { Date(0) }
+                    bDate.compareTo(aDate)
+                })
+            }
+            SortType.DATE_OLDEST -> {
+                val dateFormat = SimpleDateFormat("yyyy/MM/dd | HH:mm", Locale.ENGLISH)
+                noteList.addAll(allNotes.sortedWith { a, b ->
+                    if (a.isFavorite != b.isFavorite) {
+                        return@sortedWith if (a.isFavorite) -1 else 1
+                    }
+                    val aDate = try { dateFormat.parse(a.date) } catch (e: Exception) { Date(0) }
+                    val bDate = try { dateFormat.parse(b.date) } catch (e: Exception) { Date(0) }
+                    aDate.compareTo(bDate)
+                })
+            }
+        }
+
+        adapter.notifyDataSetChanged()
     }
 
     // ---------------- Toolbar + Search ----------------
@@ -205,14 +274,14 @@ class NotesListFragment : Fragment() {
                     noteList.clear()
                     noteList.addAll(notes)
 
-                    adapter.notifyDataSetChanged()
+                    // Apply sorting to newly loaded notes
+                    sortAndFilterNotes()
                 }
         }
     }
 
     // ---------------- Search Filter ----------------
     private fun filterNotes(query: String) {
-
         val filtered = if (query.isBlank()) {
             allNotes
         } else {
@@ -223,19 +292,16 @@ class NotesListFragment : Fragment() {
 
         noteList.clear()
         noteList.addAll(filtered)
-        adapter.notifyDataSetChanged()
-    }
 
-    // ---------------- Sort Filter ----------------
-    private fun sortNotes() {
-        noteList.clear()
-        
         when (currentSortType) {
             SortType.NAME -> {
                 val faCollator = Collator.getInstance(Locale("fa"))
                 val enCollator = Collator.getInstance(Locale.ENGLISH)
 
-                noteList.addAll(allNotes.sortedWith { a, b ->
+                noteList.sortWith { a, b ->
+                    if (a.isFavorite != b.isFavorite) {
+                        return@sortWith if (a.isFavorite) -1 else 1
+                    }
                     val aPersian = a.title.firstOrNull()?.code in 0x0600..0x06FF
                     val bPersian = b.title.firstOrNull()?.code in 0x0600..0x06FF
 
@@ -245,31 +311,38 @@ class NotesListFragment : Fragment() {
                         aPersian -> faCollator.compare(a.title, b.title)
                         else -> enCollator.compare(a.title, b.title)
                     }
-                })
+                }
             }
             SortType.DATE_NEWEST -> {
                 val dateFormat = SimpleDateFormat("yyyy/MM/dd | HH:mm", Locale.ENGLISH)
-                noteList.addAll(allNotes.sortedByDescending { note ->
-                    try {
-                        dateFormat.parse(note.date)
-                    } catch (e: Exception) {
-                        Date(0)
+                noteList.sortWith { a, b ->
+                    if (a.isFavorite != b.isFavorite) {
+                        return@sortWith if (a.isFavorite) -1 else 1
                     }
-                })
+                    val aDate = try { dateFormat.parse(a.date) } catch (e: Exception) { Date(0) }
+                    val bDate = try { dateFormat.parse(b.date) } catch (e: Exception) { Date(0) }
+                    bDate.compareTo(aDate)
+                }
             }
             SortType.DATE_OLDEST -> {
                 val dateFormat = SimpleDateFormat("yyyy/MM/dd | HH:mm", Locale.ENGLISH)
-                noteList.addAll(allNotes.sortedBy { note ->
-                    try {
-                        dateFormat.parse(note.date)
-                    } catch (e: Exception) {
-                        Date(0)
+                noteList.sortWith { a, b ->
+                    if (a.isFavorite != b.isFavorite) {
+                        return@sortWith if (a.isFavorite) -1 else 1
                     }
-                })
+                    val aDate = try { dateFormat.parse(a.date) } catch (e: Exception) { Date(0) }
+                    val bDate = try { dateFormat.parse(b.date) } catch (e: Exception) { Date(0) }
+                    aDate.compareTo(bDate)
+                }
             }
         }
-
+        
         adapter.notifyDataSetChanged()
+    }
+
+    // ---------------- Sort Filter ----------------
+    private fun sortNotes() {
+        sortAndFilterNotes()
     }
 
     private fun showSortDialog() {

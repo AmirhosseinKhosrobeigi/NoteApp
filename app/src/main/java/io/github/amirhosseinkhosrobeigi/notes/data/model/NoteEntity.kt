@@ -11,6 +11,7 @@ data class NoteEntity(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "detail") val detail: String,
     @ColumnInfo(name = "delete_state") val deleteState: Boolean = false,
-    @ColumnInfo(name = "date") val date: String
+    @ColumnInfo(name = "date") val date: String,
+    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean = false
 )
 

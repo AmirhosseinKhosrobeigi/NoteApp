@@ -92,14 +92,16 @@ class AddEditNoteFragment : Fragment() {
                         title = title,
                         detail = detail,
                         deleteState = false,
-                        date = date
+                        date = date,
+                        isFavorite = false
                     )
                 } else {
                     val existingNote = db.noteDao().getNoteById(noteId)
                     existingNote?.copy(
                         title = title,
                         detail = detail,
-                        date = date
+                        date = date,
+                        isFavorite = existingNote.isFavorite
                     ) ?: return@launch
                 }
 

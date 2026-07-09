@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Notes</string>
     <string name="recycle_bin">سطل زباله</string>
+    <string name="favorites">علاقه مندی ها</string>
     <string name="title">عنوان یادداشت</string>
     <string name="detail">توضیحات نوشته</string>
     <string name="save">ذخیره کردن</string>
@@ -13,5 +14,5 @@
     <string name="theme_light">روشن</string>
     <string name="theme_dark">تاریک</string>
     <string name="theme_color">رنگ تم</string>
-    <string name="theme_restart_required">برای اعمال تغییرات، برنامه را مجدداً راه‌اندازی کنید</string>
+    <string name="theme_restart_required">برای اعمال تغییرات، برنامه را مجدداً راهاندازی کنید</string>
 </resources>

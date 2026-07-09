@@ -23,7 +23,7 @@ interface NoteDao {
     @Query("UPDATE ${DBHandler.NOTE_TABLE} SET delete_state = :state WHERE id = :id")
     suspend fun updateNoteState(id: Int, state: Boolean): Int
 
-    @Query("SELECT id, title, detail, delete_state, date FROM ${DBHandler.NOTE_TABLE} WHERE delete_state = :state")
+    @Query("SELECT id, title, detail, delete_state, date, is_favorite FROM ${DBHandler.NOTE_TABLE} WHERE delete_state = :state")
     fun getNotesForRecycler(state: Boolean): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM ${DBHandler.NOTE_TABLE} WHERE id = :id LIMIT 1")
@@ -31,4 +31,10 @@ interface NoteDao {
 
     @Query("DELETE FROM ${DBHandler.NOTE_TABLE} WHERE id = :id")
     suspend fun deleteNote(id: Int): Int
+
+    @Query("UPDATE ${DBHandler.NOTE_TABLE} SET is_favorite = :isFavorite WHERE id = :id")
+    suspend fun updateFavoriteState(id: Int, isFavorite: Boolean): Int
+
+    @Query("SELECT * FROM ${DBHandler.NOTE_TABLE} WHERE delete_state = 0 AND is_favorite = 1")
+    fun getFavoriteNotes(): Flow<List<NoteEntity>>
 }

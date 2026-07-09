@@ -7,16 +7,28 @@
     android:layout_margin="8dp"
     android:background="@drawable/back_item_list">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_star_notes"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_star_outline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/txt_title_notes"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         tools:text="Hzine haye manzel"
         android:textSize="24sp"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_star_notes"
+        app:layout_constraintEnd_toStartOf="@id/img_delete_notes_recycler"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -25,8 +37,8 @@
         android:layout_height="40dp"
         android:src="@drawable/ic_delete"
         android:tint="@color/colorError"
-        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

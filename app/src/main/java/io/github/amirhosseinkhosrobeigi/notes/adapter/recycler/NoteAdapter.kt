@@ -16,7 +16,8 @@ import io.github.amirhosseinkhosrobeigi.notes.databinding.ListItemNotesBinding
 class NoteAdapter(
     private var data: ArrayList<NoteEntity>,
     private val onDeleteClick: (NoteEntity, Int) -> Unit,
-    private val onItemClick: (NoteEntity) -> Unit
+    private val onItemClick: (NoteEntity) -> Unit,
+    private val onFavoriteClick: (NoteEntity) -> Unit = { _ -> }
 ) : RecyclerView.Adapter<NoteAdapter.NotesViewHolder>() {
 
     inner class SwipeToDeleteCallback(
@@ -104,6 +105,18 @@ class NoteAdapter(
 
         fun setDataNote(note: NoteEntity) {
             binding.txtTitleNotes.text = note.title
+
+            val starIcon = if (note.isFavorite) {
+                R.drawable.ic_star
+            } else {
+                R.drawable.ic_star_outline
+            }
+            binding.imgStarNotes.setImageResource(starIcon)
+            binding.imgStarNotes.clearColorFilter()
+
+            binding.imgStarNotes.setOnClickListener {
+                onFavoriteClick(note)
+            }
 
             binding.imgDeleteNotesRecycler.setOnClickListener {
                 onDeleteClick(note, layoutPosition)
