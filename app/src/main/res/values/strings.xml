@@ -15,4 +15,18 @@
     <string name="theme_dark">تاریک</string>
     <string name="theme_color">رنگ تم</string>
     <string name="theme_restart_required">برای اعمال تغییرات، برنامه را مجدداً راهاندازی کنید</string>
+    
+    <!-- Backup/Restore strings -->
+    <string name="backup_settings_title">پشتیبانی و بازیابی</string>
+    <string name="backup_export_title">خروجی گرفتن از یادداشتها</string>
+    <string name="backup_export_description">یادداشتهای خود را به یک فایل JSON خروجی بگیرید</string>
+    <string name="backup_import_title">وارد کردن یادداشتها</string>
+    <string name="backup_import_description">یادداشتها را از یک فایل JSON وارد کنید</string>
+    <string name="backup_export_success">خروجی گرفتن با موفقیت انجام شد</string>
+    <string name="backup_export_failed">خطا در خروجی گرفتن</string>
+    <string name="backup_import_success">%d یادداشت با موفقیت وارد شد</string>
+    <string name="backup_import_failed">خطا در وارد کردن</string>
+    <string name="backup_file_name">پشتیبانی یادداشتها</string>
+    <string name="backup_export_button">خروجی گرفتن</string>
+    <string name="backup_import_button">وارد کردن</string>
 </resources>
