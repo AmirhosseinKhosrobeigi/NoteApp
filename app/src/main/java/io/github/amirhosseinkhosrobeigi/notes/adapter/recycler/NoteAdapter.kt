@@ -68,16 +68,6 @@ class NoteAdapter(
             val itemView = viewHolder.itemView
             val itemHeight = itemView.bottom - itemView.top
 
-            // Draw background
-            background.color = backgroundColor
-            background.setBounds(
-                itemView.right + dX.toInt(),
-                itemView.top,
-                itemView.right,
-                itemView.bottom
-            )
-            background.draw(c)
-
             // Draw delete icon
             val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight) / 2
             val deleteIconMargin = (itemHeight - intrinsicHeight) / 2
