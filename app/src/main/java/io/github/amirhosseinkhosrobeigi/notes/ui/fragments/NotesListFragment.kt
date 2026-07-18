@@ -33,6 +33,7 @@ class NotesListFragment : Fragment() {
 
     // Sort preferences
     private enum class SortType { NAME, DATE_NEWEST, DATE_OLDEST }
+
     private var currentSortType: SortType = SortType.NAME
 
     override fun onCreateView(
@@ -151,7 +152,7 @@ class NotesListFragment : Fragment() {
 
     private fun sortAndFilterNotes() {
         noteList.clear()
-        
+
         when (currentSortType) {
             SortType.NAME -> {
                 val faCollator = Collator.getInstance(Locale("fa"))
@@ -161,13 +162,24 @@ class NotesListFragment : Fragment() {
                     if (a.isFavorite != b.isFavorite) {
                         return@sortedWith if (a.isFavorite) -1 else 1
                     }
-                    val aPersian = a.title.firstOrNull()?.code in 0x0600..0x06FF
-                    val bPersian = b.title.firstOrNull()?.code in 0x0600..0x06FF
+                    val aFirst = a.title.firstOrNull()
+                    val bFirst = b.title.firstOrNull()
+
+                    val aType = when {
+                        aFirst?.isDigit() == true -> 0
+                        aFirst?.code in 0x0600..0x06FF -> 1
+                        else -> 2
+                    }
+
+                    val bType = when {
+                        bFirst?.isDigit() == true -> 0
+                        bFirst?.code in 0x0600..0x06FF -> 1
+                        else -> 2
+                    }
 
                     when {
-                        aPersian && !bPersian -> -1
-                        !aPersian && bPersian -> 1
-                        aPersian -> faCollator.compare(a.title, b.title)
+                        aType != bType -> aType.compareTo(bType)
+                        aType == 1 -> faCollator.compare(a.title, b.title)
                         else -> enCollator.compare(a.title, b.title)
                     }
                 })
@@ -178,8 +190,16 @@ class NotesListFragment : Fragment() {
                     if (a.isFavorite != b.isFavorite) {
                         return@sortedWith if (a.isFavorite) -1 else 1
                     }
-                    val aDate = try { dateFormat.parse(a.date) } catch (e: Exception) { Date(0) }
-                    val bDate = try { dateFormat.parse(b.date) } catch (e: Exception) { Date(0) }
+                    val aDate = try {
+                        dateFormat.parse(a.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
+                    val bDate = try {
+                        dateFormat.parse(b.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
                     bDate.compareTo(aDate)
                 })
             }
@@ -189,8 +209,16 @@ class NotesListFragment : Fragment() {
                     if (a.isFavorite != b.isFavorite) {
                         return@sortedWith if (a.isFavorite) -1 else 1
                     }
-                    val aDate = try { dateFormat.parse(a.date) } catch (e: Exception) { Date(0) }
-                    val bDate = try { dateFormat.parse(b.date) } catch (e: Exception) { Date(0) }
+                    val aDate = try {
+                        dateFormat.parse(a.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
+                    val bDate = try {
+                        dateFormat.parse(b.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
                     aDate.compareTo(bDate)
                 })
             }
@@ -241,7 +269,9 @@ class NotesListFragment : Fragment() {
     // ---------------- FAB ----------------
     private fun setupFab() {
         val mainActivity = activity as? MainActivity
-        mainActivity?.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.img_add_note)?.apply {
+        mainActivity?.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
+            R.id.img_add_note
+        )?.apply {
             visibility = View.VISIBLE
             setOnClickListener {
                 val fragment = AddEditNoteFragment.newInstance(0, true)
@@ -256,7 +286,9 @@ class NotesListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         val mainActivity = activity as? MainActivity
-        mainActivity?.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.img_add_note)?.apply {
+        mainActivity?.findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
+            R.id.img_add_note
+        )?.apply {
             visibility = View.GONE
         }
     }
@@ -319,8 +351,16 @@ class NotesListFragment : Fragment() {
                     if (a.isFavorite != b.isFavorite) {
                         return@sortWith if (a.isFavorite) -1 else 1
                     }
-                    val aDate = try { dateFormat.parse(a.date) } catch (e: Exception) { Date(0) }
-                    val bDate = try { dateFormat.parse(b.date) } catch (e: Exception) { Date(0) }
+                    val aDate = try {
+                        dateFormat.parse(a.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
+                    val bDate = try {
+                        dateFormat.parse(b.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
                     bDate.compareTo(aDate)
                 }
             }
@@ -330,13 +370,21 @@ class NotesListFragment : Fragment() {
                     if (a.isFavorite != b.isFavorite) {
                         return@sortWith if (a.isFavorite) -1 else 1
                     }
-                    val aDate = try { dateFormat.parse(a.date) } catch (e: Exception) { Date(0) }
-                    val bDate = try { dateFormat.parse(b.date) } catch (e: Exception) { Date(0) }
+                    val aDate = try {
+                        dateFormat.parse(a.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
+                    val bDate = try {
+                        dateFormat.parse(b.date)
+                    } catch (e: Exception) {
+                        Date(0)
+                    }
                     aDate.compareTo(bDate)
                 }
             }
         }
-        
+
         adapter.notifyDataSetChanged()
     }
 
@@ -346,7 +394,8 @@ class NotesListFragment : Fragment() {
     }
 
     private fun showSortDialog() {
-        val items = arrayOf("Sort by Name", "Sort by Date (Newest First)", "Sort by Date (Oldest First)")
+        val items =
+            arrayOf("Sort by Name", "Sort by Date (Newest First)", "Sort by Date (Oldest First)")
         val checkedItem = when (currentSortType) {
             SortType.NAME -> 0
             SortType.DATE_NEWEST -> 1
